@@ -11,6 +11,12 @@ from mnist import MNIST
 def ReLU(x):
     return np.maximum(x, 0)
 
+def trick_sigmoid(x):
+    return 1.7159*np.tanh(2*x/3)
+
+def trick_dsigmoid(x):
+    return 1.7159*(1-np.power(np.tanh(2*x/3),2))*2/3
+
 def sigmoid(x):
     return np.exp(x)/(np.exp(x)+1.0)
 
@@ -35,10 +41,9 @@ def random_init_weights(input_size, output_size):
 def random_init_bias(output_size):
     return  np.zeros((1, output_size))
 
-
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, activation_fn = "ReLU", learning_rate = 0.5, momentum = 1, epoches = 5, batch_size = 256):
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, activation_fn = "ReLU", learning_rate = 0.01, momentum = 1, epoches = 5, batch_size = 128):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -54,6 +59,9 @@ class Network():
         elif activation_fn == "ReLU":
             self.activation_fn = ReLU
             self.activation_dfn = dReLU
+        elif activation_fn == "trick_sigmoid":
+            self.activation_fn = trick_sigmoid
+            self.activation_dfn = trick_dsigmoid
 
     def setup_layers(self):
         self.w = [ self.init_method_weights(input_size, output_size) for input_size, output_size in zip(self.layers[:-1], self.layers[1:])]
@@ -119,7 +127,7 @@ class Network():
 
         return dw, db
 
-    def loss(self, input_data, one_hot_labels, labels):
+    def loss(self, input_data, one_hot_labels):
         pred_y = self.forward(input_data)
         pred_y[pred_y == 0.0] = 1e-15
         log_pred_y = np.log(pred_y)
@@ -127,20 +135,30 @@ class Network():
 
         return loss_
  
-    def accuracy(self, input_data, one_hot_labels, labels):
+    def accuracy(self, input_data, labels):
         pred_y = self.forward(input_data)
         pred_class = np.argmax(pred_y, axis=1)
         accuracy_ = np.sum(pred_class == labels) / (pred_class.shape[0]+0.0)
 
         return accuracy_
 
-
-    def train(self, training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels):
+    def train(self, training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels):
 
         self.accuracy(training_images, one_hot_train_labels, training_labels)
         pred_y = self.forward(training_images)
 
         batch_count = training_images.shape[0] / self.batch_size
+        self.validation_loss = float("inf")
+        self.best_validation_weights [np.zeros(weight.shape) for weight in self.w]
+        self.best_validation_biases = [np.zeros(bias.shape) for bias in self.b]
+
+        training_accuracy_all = []
+        test_accuracy_all = []
+        validation_accuracy_all = []
+
+        training_loss_all = []
+        test_loss_all = []
+        validation_loss_all = []
 
         for epoch in range(self.epoches):
             idxs = np.random.permutation(training_images.shape[0]) 
@@ -152,13 +170,23 @@ class Network():
                 train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
                 self.update_mini_batch(train_data_batch, train_label_batch)
 
-            accuracy_ = self.accuracy(training_images, one_hot_train_labels, training_labels)
-            loss_ = self.loss(training_images, one_hot_train_labels,training_labels)
-            #accuracy_ = self.accuracy(test_images, one_hot_test_labels, test_labels)
+                training_accuracy_all.append(self.accuracy(training_images, training_labels))
+                test_accuracy_all.append(self.accuracy(test_images, test_labels))
+                validation_accuracy_all.append(self.activation(validation_images, validation_labels))
 
-            print "accuracy is " + str(accuracy_)
-            print "loss is " + str(loss_)
-        
+                training_loss_all.append(self.loss(training_images, one_hot_train_labels))
+                test_loss_all.append(self.loss(test_images, one_hot_test_labels))
+                validation_loss.append(self.loss(validation_images, one_hot_validation_labels))
+
+            loss_ = self.loss(validation_images, one_hot_validation_labels)
+            if loss_ <= self.validation_loss:
+                self.validation_loss = loss_
+                self.best_validation_weights [weight for weight in self.w]
+                self.best_validation_biases = [bias for bias in self.b]
+            else:
+                break
+
+
 if __name__ == '__main__':
 
     data = MNIST('./python-mnist/data')
@@ -170,20 +198,16 @@ if __name__ == '__main__':
     training_labels = np.array(training_labels)
     test_labels = np.array(test_labels)
 
-
     training_images = training_images / 127.5 - 1
     test_images = test_images / 127.5 - 1
 
     classes = 10
-
     one_hot_train_labels = np.eye(classes)[training_labels] 
     one_hot_test_labels = np.eye(classes)[test_labels]  
 
-    nn = Network([784, 256, 10])
-    #training_images = training_images[:100,:]
-    #training_labels = training_labels[:100]
-    #one_hot_train_labels = one_hot_train_labels[:100,:]
-
-    nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels)
-
-
+    training_images, validation_images = training_images[0:50000,:], training_images[50000:,:]
+    training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
+    one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
+    
+    nn = Network([784, 64, 10])
+    nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
