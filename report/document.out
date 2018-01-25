@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Abstract}{}% 1
+\BOOKMARK [1][-]{section.2}{Logistic Regression via Gradient Descent}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Problem Definition}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Mathematical Derivation and Methods}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Data Reading, Parsing and Feature Extraction}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Experimental Results and Discussion}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Derive the gradient for regularized logistic regression:}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{Softmax Regression via Gradient Descent}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Problem definition}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Methods}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Results}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.4}{Discussion}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{Summary}{}% 13
+\BOOKMARK [1][-]{section.5}{Contributions}{}% 14
+\BOOKMARK [1][-]{section.6}{Code}{}% 15
+\BOOKMARK [2][-]{subsection.6.1}{Logistic regression}{section.6}% 16
+\BOOKMARK [2][-]{subsection.6.2}{Softmax regression}{section.6}% 17
