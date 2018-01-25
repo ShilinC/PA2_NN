@@ -41,12 +41,10 @@ def random_init_weights(input_size, output_size):
 def zero_init_bias(output_size):
     return  np.zeros((1, output_size))
 
-
-
 class Network():
 
     def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = zero_init_bias, activation_fn = "ReLU", \
-        learning_rate = 0.01, momentum = 1, epoches = 2, batch_size = 128, dropout_rate = 0.5):
+        learning_rate = 0.01, momentum = 1, epoches = 10, batch_size = 128, dropout_rate = 0.5):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -171,6 +169,14 @@ class Network():
                 train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
                 self.update_mini_batch(train_data_batch, train_label_batch)
 
+                loss_ = self.loss(validation_images, one_hot_validation_labels)
+                if loss_ <= self.validation_loss:
+                    self.validation_loss = loss_
+                    self.best_validation_weights = [weight for weight in self.w]
+                    self.best_validation_biases = [bias for bias in self.b]
+                else:
+                    break
+
                 training_accuracy_all.append(self.accuracy(training_images, training_labels))
                 test_accuracy_all.append(self.accuracy(test_images, test_labels))
                 validation_accuracy_all.append(self.accuracy(validation_images, validation_labels))
@@ -179,16 +185,32 @@ class Network():
                 test_loss_all.append(self.loss(test_images, one_hot_test_labels))
                 validation_loss_all.append(self.loss(validation_images, one_hot_validation_labels))
 
-            loss_ = self.loss(validation_images, one_hot_validation_labels)
-            if loss_ <= self.validation_loss:
-                self.validation_loss = loss_
-                self.best_validation_weights = [weight for weight in self.w]
-                self.best_validation_biases = [bias for bias in self.b]
-            else:
-                break
+
+        fig1 = plt.figure(1)
+        plt.plot(x_, training_accuracy_all,'ro-')
+        plt.plot(x_, test_accuracy_all, 'bo-')
+        plt.plot(x_, validation_accuracy_all, 'go-')
+
+        plt.legend(['train accuracy', 'test accuracy', 'validation accuracy'], loc='lower right')
+        plt.xlabel('Batches', fontsize=15)
+        plt.ylabel('Accuracy', fontsize=15)
+        plt.title('Accuracy VS Batches', fontsize=15)
+        fig1.show()
+
+        fig2 = plt.figure(2)
+        plt.plot(x_, training_loss_all,'ro-')
+        plt.plot(x_, test_loss_all, 'bo-')
+        plt.plot(x_, validation_loss_all, 'go-')
+
+        plt.legend(['train loss', 'test loss', 'validation loss_'], loc='lower right')
+        plt.xlabel('Batches', fontsize=15)
+        plt.ylabel('Loss', fontsize=15)
+        plt.title('Loss VS Batches', fontsize=15)
+        fig2.show()           
+
 
 if __name__ == '__main__':
-
+    # Read datasets
     data = MNIST('./python-mnist/data')
     training_images, training_labels = data.load_training()
     test_images, test_labels = data.load_testing()
