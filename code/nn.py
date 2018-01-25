@@ -41,9 +41,11 @@ def random_init_weights(input_size, output_size):
 def random_init_bias(output_size):
     return  np.zeros((1, output_size))
 
+
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, activation_fn = "ReLU", learning_rate = 0.01, momentum = 1, epoches = 5, batch_size = 128):
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, activation_fn = "ReLU", \
+        learning_rate = 0.01, momentum = 1, epoches = 2, batch_size = 128, dropout_rate = 0.5):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -107,11 +109,10 @@ class Network():
     def backpropagation(self, train_data, train_label):
         train_data = train_data.reshape(1, train_data.shape[0])
 
-        dw = [np.zeros(weight.shape) for weight in self.w ]
-        db = [np.zeros(bias.shape) for bias in self.b ]
+        dw = [np.zeros(weight.shape) for weight in self.w]
+        db = [np.zeros(bias.shape) for bias in self.b]
 
         activations, pre_activations = self.get_activations(train_data)
-        
         delta = train_label - activations[-1]
 
         dw[-1] = np.matmul( activations[-2].transpose(), delta)
@@ -120,7 +121,6 @@ class Network():
         for idx in range(2, len(self.layers)):
             pre_activation = pre_activations[-idx]
             activation = activations[-idx-1]
-
             delta = self.activation_dfn(pre_activation) * np.dot(delta, self.w[-idx+1].transpose())
             dw[-idx] = np.dot( activation.transpose(), delta)
             db[-idx] = delta  
@@ -144,13 +144,13 @@ class Network():
 
     def train(self, training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels):
 
-        self.accuracy(training_images, one_hot_train_labels, training_labels)
+        self.accuracy(training_images, training_labels)
         pred_y = self.forward(training_images)
 
         batch_count = training_images.shape[0] / self.batch_size
         self.validation_loss = float("inf")
-        self.best_validation_weights [np.zeros(weight.shape) for weight in self.w]
-        self.best_validation_biases = [np.zeros(bias.shape) for bias in self.b]
+        self.best_validation_weights =[ np.zeros(weight.shape) for weight in self.w]
+        self.best_validation_biases = [ np.zeros(bias.shape) for bias in self.b]
 
         training_accuracy_all = []
         test_accuracy_all = []
@@ -172,20 +172,19 @@ class Network():
 
                 training_accuracy_all.append(self.accuracy(training_images, training_labels))
                 test_accuracy_all.append(self.accuracy(test_images, test_labels))
-                validation_accuracy_all.append(self.activation(validation_images, validation_labels))
+                validation_accuracy_all.append(self.accuracy(validation_images, validation_labels))
 
                 training_loss_all.append(self.loss(training_images, one_hot_train_labels))
                 test_loss_all.append(self.loss(test_images, one_hot_test_labels))
-                validation_loss.append(self.loss(validation_images, one_hot_validation_labels))
+                validation_loss_all.append(self.loss(validation_images, one_hot_validation_labels))
 
             loss_ = self.loss(validation_images, one_hot_validation_labels)
             if loss_ <= self.validation_loss:
                 self.validation_loss = loss_
-                self.best_validation_weights [weight for weight in self.w]
+                self.best_validation_weights = [weight for weight in self.w]
                 self.best_validation_biases = [bias for bias in self.b]
             else:
                 break
-
 
 if __name__ == '__main__':
 
