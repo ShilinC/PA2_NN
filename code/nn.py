@@ -185,7 +185,7 @@ class Network():
                 training_loss_all.append(self.loss(training_images, one_hot_train_labels))
                 test_loss_all.append(self.loss(test_images, one_hot_test_labels))
                 validation_loss_all.append(self.loss(validation_images, one_hot_validation_labels))
-                print self.accuracy(training_images, training_labels)
+            print self.accuracy(training_images, training_labels)
 
         fig1 = plt.figure(1)
         plt.plot(training_accuracy_all,'ro-')
