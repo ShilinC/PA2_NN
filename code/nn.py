@@ -163,6 +163,7 @@ class Network():
             idxs = np.random.permutation(training_images.shape[0]) 
             X_random = training_images[idxs]
             Y_random = one_hot_train_labels[idxs]
+            print epoch
 
             for i in range(batch_count):
                 train_data_batch = X_random[i * self.batch_size: (i+1) * self.batch_size, :]
@@ -184,12 +185,12 @@ class Network():
                 training_loss_all.append(self.loss(training_images, one_hot_train_labels))
                 test_loss_all.append(self.loss(test_images, one_hot_test_labels))
                 validation_loss_all.append(self.loss(validation_images, one_hot_validation_labels))
-
+                print self.accuracy(training_images, training_labels)
 
         fig1 = plt.figure(1)
-        plt.plot(x_, training_accuracy_all,'ro-')
-        plt.plot(x_, test_accuracy_all, 'bo-')
-        plt.plot(x_, validation_accuracy_all, 'go-')
+        plt.plot(training_accuracy_all,'ro-')
+        plt.plot(test_accuracy_all, 'bo-')
+        plt.plot(validation_accuracy_all, 'go-')
 
         plt.legend(['train accuracy', 'test accuracy', 'validation accuracy'], loc='lower right')
         plt.xlabel('Batches', fontsize=15)
@@ -198,9 +199,9 @@ class Network():
         fig1.show()
 
         fig2 = plt.figure(2)
-        plt.plot(x_, training_loss_all,'ro-')
-        plt.plot(x_, test_loss_all, 'bo-')
-        plt.plot(x_, validation_loss_all, 'go-')
+        plt.plot(training_loss_all,'ro-')
+        plt.plot(test_loss_all, 'bo-')
+        plt.plot(validation_loss_all, 'go-')
 
         plt.legend(['train loss', 'test loss', 'validation loss_'], loc='lower right')
         plt.xlabel('Batches', fontsize=15)
