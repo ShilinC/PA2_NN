@@ -38,13 +38,14 @@ def softmax(x):
 def random_init_weights(input_size, output_size):
     return 0.01 * np.random.randn(input_size, output_size)
 
-def random_init_bias(output_size):
+def zero_init_bias(output_size):
     return  np.zeros((1, output_size))
+
 
 
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, activation_fn = "ReLU", \
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = zero_init_bias, activation_fn = "ReLU", \
         learning_rate = 0.01, momentum = 1, epoches = 2, batch_size = 128, dropout_rate = 0.5):
         self.layers = layers
         self.init_method_weights = init_method_weights
