@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 import sys
 sys.path.append('./python-mnist/')
@@ -30,7 +31,7 @@ def Leaky_Relu(x, leakage = 0.01):
     a[ a < 0 ] *= leakage
     return a
 
-def Leaky_dRelu(x, leakage):
+def Leaky_dRelu(x, leakage = 0.01):
     return np.clip(x > 0, leakage, 1.0)
 
 def softmax(x):
@@ -49,26 +50,32 @@ def zero_init_bias(output_size):
 def random_init_weights_fan_in(input_size, output_size):
     return np.random.normal(0,np.power(input_size,-0.5),(input_size,output_size))
 
+def Xavier_initializtion(input_size, output_size):
+    var = 2.0 / (input_size + output_size)
+    stddev = math.sqrt(variance)
+    return np.random.normal(0.0, stddev, (input_size, output_size))
+
 def random_init_bias(output_size):
     return np.random.randn(1, output_size)
 
 def zero_init_delta_w(input_size, output_size):
     return np.zeros((input_size,output_size))
 
+
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "sigmoid", learning_rate = 0.01, 
-        momentum = 0.0, epoches = 10, batch_size = 128):
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "Leaky_Relu", 
+        learning_rate = 0.01, momentum = 0.9, epoches = 50, batch_size = 128, nesterov_momentum = 1):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
         self.init_method_delta_w = init_method_delta_w
-
-        self.setup_layers()
+        self.nesterov_momentum = nesterov_momentum
+        self.momentum = momentum
         self.epoches = epoches
         self.learning_rate = learning_rate
-        self.momentum = momentum
         self.batch_size = batch_size
+        self.setup_layers()
 
         if activation_fn == "sigmoid":
             self.activation_fn = sigmoid
@@ -79,13 +86,24 @@ class Network():
         elif activation_fn == "trick_sigmoid":
             self.activation_fn = trick_sigmoid
             self.activation_dfn = trick_dsigmoid
+        elif activation_fn == "Leaky_Relu":
+            self.activation_fn = Leaky_Relu
+            self.activation_dfn = Leaky_dRelu
+
         self.validation_loss = None
         self.best_validation_weights = None
         self.best_validation_biases = None
+
     def setup_layers(self):
         self.w = [ self.init_method_weights(input_size, output_size) for input_size, output_size in zip(self.layers[:-1], self.layers[1:])]
-        self.delta_w = [ self.init_method_delta_w(input_size, output_size) for input_size, output_size in zip(self.layers[:-1], self.layers[1:])]
         self.b = [ self.init_method_bias(output_size) for output_size in self.layers[1:]]
+
+        # for momentum
+        self.delta_w = [ self.init_method_delta_w(input_size, output_size) for input_size, output_size in zip(self.layers[:-1], self.layers[1:])]
+
+        if self.nesterov_momentum == 1:
+            # for nesterov momentum
+            self.pre_delta_w = [ self.init_method_delta_w(input_size, output_size) for input_size, output_size in zip(self.layers[:-1], self.layers[1:])]
 
     def forward(self, x):
         for weight, bias in zip(self.w[:-1], self.b[:-1]):
@@ -113,10 +131,15 @@ class Network():
         return activations, pre_activations
 
     def momentum_update(self, gradient, delta_w_):
-        delta_w_ = [delta_w * self.momentum for delta_w in delta_w_]
-        delta_w_ = self.learning_rate * gradient / (self.batch_size+0.0) + delta_w_ #delta_w has same dimension as w
+        delta_w_ = self.learning_rate * gradient / (self.batch_size+0.0) + self.momentum * delta_w_ #delta_w has same dimension as w
         return delta_w_  
-            
+
+    def nesterov_momentum_update(self, gradient, delta_w_, pre_delta_w_):
+        pre_delta_w_ = delta_w_
+        delta_w_ = self.learning_rate * gradient / (self.batch_size+0.0) + self.momentum * delta_w_ 
+
+        return delta_w_, pre_delta_w_ 
+
     def update_mini_batch(self, train_data_batch, train_label_batch):
         dw = [np.zeros(weight.shape) for weight in self.w]
         db = [np.zeros(bias.shape) for bias in self.b]
@@ -125,13 +148,19 @@ class Network():
             dw_, db_ = self.backpropagation(train_data, train_label)
             dw = [dweight + dweight_ for dweight, dweight_ in zip(dw, dw_)]
             db = [dbias + dbias_ for dbias, dbias_ in zip(db, db_)]
-        counter = 0
 
-        for weight, dw_, delta_w_ in zip(self.w, dw, self.delta_w):
-            self.delta_w[counter] = self.momentum_update(dw_, delta_w_)
-            weight = weight + self.momentum_update(dw_, delta_w_)
-            self.w[counter] = weight
-            counter = counter + 1
+        if self.nesterov_momentum == 1:
+            #nesterov_momentum
+            for idx, (weight, dw_, delta_w_, pre_delta_w_) in enumerate(zip(self.w, dw, self.delta_w, self.pre_delta_w)):
+                self.delta_w[idx], self.pre_delta_w[idx] = self.nesterov_momentum_update(dw_, delta_w_, pre_delta_w_)
+                weight = weight - self.momentum * self.pre_delta_w[idx] + (1 + self.momentum) * self.delta_w[idx]
+                self.w[idx] = weight
+        else:
+            # momentum
+            for idx, (weight, dw_, delta_w_) in enumerate(zip(self.w, dw, self.delta_w)):
+                self.delta_w[idx] = self.momentum_update(dw_, delta_w_)
+                weight = weight + self.delta_w[idx]
+                self.w[idx] = weight
 
         self.b = [bias + self.learning_rate * db_ / (train_data_batch.shape[0]+0.0)  for bias, db_ in zip(self.b, db)]
         
@@ -154,7 +183,6 @@ class Network():
         return dw, db
 
     def loss(self, pred_y, one_hot_labels):
-        #pred_y = self.forward(input_data)
         pred_y[pred_y == 0.0] = 1e-15
         log_pred_y = np.log(pred_y)
         loss_ = -np.sum(one_hot_labels * log_pred_y) / (one_hot_labels.shape[0]+0.0)
@@ -162,13 +190,13 @@ class Network():
         return loss_
  
     def accuracy(self, pred_y, labels):
-        #pred_y = self.forward(input_data)
         pred_class = np.argmax(pred_y, axis=1)
         accuracy_ = np.sum(pred_class == labels)/(pred_class.shape[0]+0.0)
 
         return accuracy_
 
-    def train(self, training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels):
+    def train(self, training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels,
+     validation_images, validation_labels, one_hot_validation_labels):
 
         batch_count = training_images.shape[0] / self.batch_size
         self.validation_loss = np.float64("inf")
@@ -190,12 +218,11 @@ class Network():
                 train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
                 self.update_mini_batch(train_data_batch, train_label_batch)
                 
+                #pred_y_train = self.forward(training_images)
+                #pred_y_test = self.forward(test_images)
+                #pred_y_validation = self.forward(validation_images)
 
-                pred_y_train = self.forward(training_images)
-                pred_y_test = self.forward(test_images)
-                pred_y_validation = self.forward(validation_images)
-
-
+                '''
                 loss_ = self.loss(pred_y_validation, one_hot_validation_labels)
             
                 if loss_ <= self.validation_loss:
@@ -212,9 +239,9 @@ class Network():
                 training_loss_all.append(self.loss(pred_y_train, one_hot_train_labels))
                 test_loss_all.append(self.loss(pred_y_test, one_hot_test_labels))
                 validation_loss_all.append(self.loss(pred_y_validation, one_hot_validation_labels))
-                
-            print self.accuracy(pred_y_train, training_labels)
-
+                '''
+            pred_y_test = self.forward(test_images)
+            print self.accuracy(pred_y_test, test_labels)
 
         fig1 = plt.figure(1)
         plt.plot(training_accuracy_all,'r-')

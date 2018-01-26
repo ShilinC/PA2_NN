@@ -1,12 +1,13 @@
 \BOOKMARK [1][-]{section.1}{Abstract}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Mini-batch gradient descent}{section.1}% 2
-\BOOKMARK [1][-]{section.2}{Classification}{}% 3
+\BOOKMARK [1][-]{section.2}{Classification}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Mini-batch gradient descent}{section.2}% 3
 \BOOKMARK [1][-]{section.3}{Adding the “Tricks of the Trade"}{}% 4
 \BOOKMARK [1][-]{section.4}{Experiment with Network Topology}{}% 5
 \BOOKMARK [2][-]{subsection.4.1}{Experiments with differnet hidden units}{section.4}% 6
 \BOOKMARK [2][-]{subsection.4.2}{Doubling the hidden layers}{section.4}% 7
 \BOOKMARK [2][-]{subsection.4.3}{More tricks}{section.4}% 8
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Relu}{subsection.4.3}% 9
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Nesterov momentum}{subsection.4.3}% 10
-\BOOKMARK [3][-]{subsubsection.4.3.3}{Xavier initializtion}{subsection.4.3}% 11
-\BOOKMARK [3][-]{subsubsection.4.3.4}{Dropout}{subsection.4.3}% 12
+\BOOKMARK [3][-]{subsubsection.4.3.1}{ReLU}{subsection.4.3}% 9
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Leaky ReLU}{subsection.4.3}% 10
+\BOOKMARK [3][-]{subsubsection.4.3.3}{Nesterov momentum}{subsection.4.3}% 11
+\BOOKMARK [3][-]{subsubsection.4.3.4}{Xavier initializtion}{subsection.4.3}% 12
+\BOOKMARK [3][-]{subsubsection.4.3.5}{Dropout}{subsection.4.3}% 13
