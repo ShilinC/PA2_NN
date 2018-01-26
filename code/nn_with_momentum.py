@@ -25,12 +25,19 @@ def dReLU(x):
 def dsigmoid(x):
     return sigmoid(x) * (1 - sigmoid(x))
 
+def Leaky_Relu(x, leakage = 0.01):
+    a = np.copy(x)
+    a[ a < 0 ] *= leakage
+    return a
+
+def Leaky_dRelu(x, leakage):
+    return np.clip(x > 0, leakage, 1.0)
+
 def softmax(x):
     # Find the largest a, and subtract it from each a in order to prevent overflow
     x_max = np.max(x,1).reshape(x.shape[0],1)
     sum_exp_x = np.sum(np.exp(x - x_max),1).reshape(x.shape[0],1) 
     pred_y = np.exp(x - x_max) / (sum_exp_x+0.0) 
-
     return pred_y
 
 def random_init_weights(input_size, output_size):
@@ -50,8 +57,8 @@ def zero_init_delta_w(input_size, output_size):
 
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", learning_rate = 0.01, 
-        momentum = 0.9, epoches = 10, batch_size = 128):
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "sigmoid", learning_rate = 0.01, 
+        momentum = 0.0, epoches = 10, batch_size = 128):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -127,7 +134,6 @@ class Network():
             counter = counter + 1
 
         self.b = [bias + self.learning_rate * db_ / (train_data_batch.shape[0]+0.0)  for bias, db_ in zip(self.b, db)]
-
         
     def backpropagation(self, train_data, train_label):
         train_data = train_data.reshape(1, train_data.shape[0])
@@ -147,16 +153,16 @@ class Network():
             db[-idx] = delta  
         return dw, db
 
-    def loss(self, input_data, one_hot_labels):
-        pred_y = self.forward(input_data)
+    def loss(self, pred_y, one_hot_labels):
+        #pred_y = self.forward(input_data)
         pred_y[pred_y == 0.0] = 1e-15
         log_pred_y = np.log(pred_y)
         loss_ = -np.sum(one_hot_labels * log_pred_y) / (one_hot_labels.shape[0]+0.0)
 
         return loss_
  
-    def accuracy(self, input_data, labels):
-        pred_y = self.forward(input_data)
+    def accuracy(self, pred_y, labels):
+        #pred_y = self.forward(input_data)
         pred_class = np.argmax(pred_y, axis=1)
         accuracy_ = np.sum(pred_class == labels)/(pred_class.shape[0]+0.0)
 
@@ -164,11 +170,8 @@ class Network():
 
     def train(self, training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels):
 
-        print self.accuracy(training_images, training_labels)
-
         batch_count = training_images.shape[0] / self.batch_size
         self.validation_loss = np.float64("inf")
-
         training_accuracy_all = []
         test_accuracy_all = []
         validation_accuracy_all = []
@@ -187,7 +190,13 @@ class Network():
                 train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
                 self.update_mini_batch(train_data_batch, train_label_batch)
                 
-                loss_ = self.loss(validation_images, one_hot_validation_labels)
+
+                pred_y_train = self.forward(training_images)
+                pred_y_test = self.forward(test_images)
+                pred_y_validation = self.forward(validation_images)
+
+
+                loss_ = self.loss(pred_y_validation, one_hot_validation_labels)
             
                 if loss_ <= self.validation_loss:
                     self.validaetion_loss = loss_
@@ -196,17 +205,15 @@ class Network():
                 else:
                     break
 
-                
-                training_accuracy_all.append(self.accuracy(training_images, training_labels))
-                test_accuracy_all.append(self.accuracy(test_images, test_labels))
-                validation_accuracy_all.append(self.accuracy(validation_images, validation_labels))
+                training_accuracy_all.append(self.accuracy(pred_y_train, training_labels))
+                test_accuracy_all.append(self.accuracy(pred_y_test, test_labels))
+                validation_accuracy_all.append(self.accuracy(pred_y_validation, validation_labels))
 
-                training_loss_all.append(self.loss(training_images, one_hot_train_labels))
-                test_loss_all.append(self.loss(test_images, one_hot_test_labels))
-                validation_loss_all.append(self.loss(validation_images, one_hot_validation_labels))
+                training_loss_all.append(self.loss(pred_y_train, one_hot_train_labels))
+                test_loss_all.append(self.loss(pred_y_test, one_hot_test_labels))
+                validation_loss_all.append(self.loss(pred_y_validation, one_hot_validation_labels))
                 
-            print self.accuracy(training_images, training_labels)
-
+            print self.accuracy(pred_y_train, training_labels)
 
 
         fig1 = plt.figure(1)

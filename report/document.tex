@@ -39,7 +39,33 @@ La Jolla, CA \\
 
 \begin{document}
 \maketitle
-\section{abstract}
+\section{Abstract}
+
+
+\subsection{Mini-batch gradient descent}
+In this section, we use mini-batch gradient descent to classify the MNIST dataset. We split the 60000 images in the training set into two parts: the first 50000 images are used to train the model, the last 10000 images are used as validation set to do early stopping. We stop the training procedure once the loss on the validation set goes up and we save the weights that achieves the minimum loss on the validation set. And there are 10000 images in the test set.
+
+We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a learning rate of 0.01 and sigmoid activation function. We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets.
+
+
+\section{Classification}
+
+\section{Adding the “Tricks of the Trade"}
+
+
+\section{Experiment with Network Topology}
+
+\subsection{Experiments with differnet hidden units}
+
+\subsection{Doubling the hidden layers}
+
+\subsection{More tricks}
+\subsubsection{Relu}
+\subsubsection{Nesterov momentum}
+
+\subsubsection{Xavier initializtion}
+
+\subsubsection{Dropout}
 
 
 \end{document}
