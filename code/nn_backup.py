@@ -44,7 +44,7 @@ def zero_init_bias(output_size):
 class Network():
 
     def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = zero_init_bias, activation_fn = "ReLU", \
-        learning_rate = 0.01, momentum = 1, epoches = 10, batch_size = 128, dropout_rate = 0.5):
+        learning_rate = 0.01, momentum = 1, epoches = 20, batch_size = 128, dropout_rate = 0.5):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -185,12 +185,13 @@ class Network():
                 training_loss_all.append(self.loss(training_images, one_hot_train_labels))
                 test_loss_all.append(self.loss(test_images, one_hot_test_labels))
                 validation_loss_all.append(self.loss(validation_images, one_hot_validation_labels))
+
             print self.accuracy(training_images, training_labels)
 
         fig1 = plt.figure(1)
-        plt.plot(training_accuracy_all,'ro-')
-        plt.plot(test_accuracy_all, 'bo-')
-        plt.plot(validation_accuracy_all, 'go-')
+        plt.plot(training_accuracy_all,'r-')
+        plt.plot(test_accuracy_all, 'b-')
+        plt.plot(validation_accuracy_all, 'g-')
 
         plt.legend(['train accuracy', 'test accuracy', 'validation accuracy'], loc='lower right')
         plt.xlabel('Batches', fontsize=15)
@@ -199,16 +200,16 @@ class Network():
         fig1.show()
 
         fig2 = plt.figure(2)
-        plt.plot(training_loss_all,'ro-')
-        plt.plot(test_loss_all, 'bo-')
-        plt.plot(validation_loss_all, 'go-')
+        plt.plot(training_loss_all,'r-')
+        plt.plot(test_loss_all, 'b-')
+        plt.plot(validation_loss_all, 'g-')
 
         plt.legend(['train loss', 'test loss', 'validation loss_'], loc='lower right')
         plt.xlabel('Batches', fontsize=15)
         plt.ylabel('Loss', fontsize=15)
         plt.title('Loss VS Batches', fontsize=15)
         fig2.show()           
-
+        plt.show()
 
 if __name__ == '__main__':
     # Read datasets
