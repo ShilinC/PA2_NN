@@ -61,11 +61,10 @@ def random_init_bias(output_size):
 def zero_init_delta_w(input_size, output_size):
     return np.zeros((input_size,output_size))
 
-
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "Leaky_Relu", 
-        learning_rate = 0.01, momentum = 0.9, epoches = 50, batch_size = 128, nesterov_momentum = 1):
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "sigmoid", 
+        learning_rate = 0.01, momentum = 0.0, epoches = 60, batch_size = 128, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -218,13 +217,11 @@ class Network():
                 train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
                 self.update_mini_batch(train_data_batch, train_label_batch)
                 
-                #pred_y_train = self.forward(training_images)
-                #pred_y_test = self.forward(test_images)
-                #pred_y_validation = self.forward(validation_images)
+                pred_y_train = self.forward(training_images)
+                pred_y_test = self.forward(test_images)
+                pred_y_validation = self.forward(validation_images)
 
-                '''
                 loss_ = self.loss(pred_y_validation, one_hot_validation_labels)
-            
                 if loss_ <= self.validation_loss:
                     self.validaetion_loss = loss_
                     self.best_validation_weights = [np.array(weight) for weight in self.w]
@@ -239,7 +236,7 @@ class Network():
                 training_loss_all.append(self.loss(pred_y_train, one_hot_train_labels))
                 test_loss_all.append(self.loss(pred_y_test, one_hot_test_labels))
                 validation_loss_all.append(self.loss(pred_y_validation, one_hot_validation_labels))
-                '''
+               
             pred_y_test = self.forward(test_images)
             print self.accuracy(pred_y_test, test_labels)
 
