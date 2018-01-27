@@ -67,8 +67,17 @@ We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a le
 \subsection{Experiments with differnet hidden units}
 We use a momentum of 0.9 and use the sigmoid in Section 4.4 of ``lecun98efficient.pdf". The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
 
-First, we half the hidden units. Now we have a network of 3 layers with a hidden layer with 32 nodes. We run the network for 60 epoches except early stopping occurs.
+First, we half the hidden units. Now we have a network of 3 layers with a hidden layer with 32 nodes. We run the network for 60 epoches except early stopping occurs. After 60 epoches, the accuracy on the test set is 0.0.9635\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
 
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/32_hidden_loss.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/32_hidden_accuracy.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with a hidden layer of 32 hidden nodes. }  
+	
+\end{figure*}
 
 Then, we double the hidden units. Now we have a network of 3 layers with a hidden layer with 128 nodes. We run the network for 60 epoches except early stopping occurs.
 
