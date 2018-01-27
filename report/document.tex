@@ -6,7 +6,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{listings}
-\usepackage{subfig}
+\usepackage{subfigure}
 \title{Handwritten Digits with Multilayer Backpropagation Neural Networks}
 
 
@@ -45,9 +45,19 @@ La Jolla, CA \\
 \subsection{Mini-batch gradient descent}
 In this section, we use mini-batch gradient descent to classify the MNIST dataset. We split the 60000 images in the training set into two parts: the first 50000 images are used to train the model, the last 10000 images are used as validation set to do early stopping. We stop the training procedure once the loss on the validation set goes up and we save the weights that achieves the minimum loss on the validation set. And there are 10000 images in the test set.
 
-We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a learning rate of 0.01 and sigmoid activation function. We use standard normal distribution to initialize the weights and biases. For the weights, we multiply 0.01 to prevent large initialized values. We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets.
+We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a learning rate of 0.01 and sigmoid activation function. We use standard normal distribution to initialize the weights and biases. For the weights, we multiply 0.01 to prevent large initialized values. We run the network for 60 epoches.
 
+ We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets. Without any tricks, after 60 epoches, the accuracy on the test set is 0.9308\%. This is no early stopping occurs, the possible reason is that the choice of learning is small
 
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/3e_loss_64_hidden.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/3e_accuracy_64_hidden.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches. }  
+	
+\end{figure*}
 
 \section{Adding the “Tricks of the Trade"}
 
@@ -55,6 +65,9 @@ We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a le
 \section{Experiment with Network Topology}
 
 \subsection{Experiments with differnet hidden units}
+We use a momentum of 0.9 and use the sigmoid in Section 4.4 of ``lecun98efficient.pdf". The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
+
+First, we half the hidden units. Now we have a network of 3 layers with a hidden layer with 32 nodes. We run the network for 60 epoches except early stopping occurs.
 
 \subsection{Doubling the hidden layers}
 
