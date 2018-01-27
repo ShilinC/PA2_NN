@@ -206,6 +206,7 @@ class Network():
         test_loss_all = []
         validation_loss_all = []
 
+        stop_training = False
         for epoch in range(self.epoches):
             idxs = np.random.permutation(training_images.shape[0]) 
             X_random = training_images[idxs]
@@ -226,17 +227,21 @@ class Network():
                     self.validaetion_loss = loss_
                     self.best_validation_weights = [np.array(weight) for weight in self.w]
                     self.best_validation_biases = [np.array(bias) for bias in self.b]
+
+                    training_accuracy_all.append(self.accuracy(pred_y_train, training_labels))
+                    test_accuracy_all.append(self.accuracy(pred_y_test, test_labels))
+                    validation_accuracy_all.append(self.accuracy(pred_y_validation, validation_labels))
+
+                    training_loss_all.append(self.loss(pred_y_train, one_hot_train_labels))
+                    test_loss_all.append(self.loss(pred_y_test, one_hot_test_labels))
+                    validation_loss_all.append(self.loss(pred_y_validation, one_hot_validation_labels))
                 else:
+                    stop_training = True
                     break
 
-                training_accuracy_all.append(self.accuracy(pred_y_train, training_labels))
-                test_accuracy_all.append(self.accuracy(pred_y_test, test_labels))
-                validation_accuracy_all.append(self.accuracy(pred_y_validation, validation_labels))
+            if stop_training == True:
+                break
 
-                training_loss_all.append(self.loss(pred_y_train, one_hot_train_labels))
-                test_loss_all.append(self.loss(pred_y_test, one_hot_test_labels))
-                validation_loss_all.append(self.loss(pred_y_validation, one_hot_validation_labels))
-               
             pred_y_test = self.forward(test_images)
             print self.accuracy(pred_y_test, test_labels)
 
@@ -285,5 +290,5 @@ if __name__ == '__main__':
     training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
     one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
     
-    nn = Network([784, 32, 10])
+    nn = Network([784, 64, 10])
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
