@@ -238,7 +238,6 @@ class Network():
                 else:
                     stop_training = True
                     break
-
             if stop_training == True:
                 break
 
@@ -290,5 +289,5 @@ if __name__ == '__main__':
     training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
     one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
     
-    nn = Network([784, 64, 10])
+    nn = Network([784, 32, 10])
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
