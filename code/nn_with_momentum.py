@@ -63,7 +63,7 @@ def zero_init_delta_w(input_size, output_size):
 
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights_fan_in, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "trick_sigmoid", 
+    def __init__(self, layers, init_method_weights = random_init_weights_fan_in, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", 
         learning_rate = 0.01, momentum = 0.9, epoches = 60, batch_size = 128, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
@@ -289,5 +289,5 @@ if __name__ == '__main__':
     training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
     one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
     
-    nn = Network([784, 58, 58, 10])
+    nn = Network([784, 64, 10])
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
