@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.1)  27 JAN 2018 21:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.1)  28 JAN 2018 09:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -395,14 +395,14 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 42.
 
-<images/3e_loss_64_hidden.png, id=56, 462.528pt x 346.896pt>
+<images/3e_loss_64_hidden.png, id=28, 462.528pt x 346.896pt>
 File: images/3e_loss_64_hidden.png Graphic file (type png)
 
 <use images/3e_loss_64_hidden.png>
 Package pdftex.def Info: images/3e_loss_64_hidden.png used on input line 54.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/3e_accuracy_64_hidden.png, id=58, 462.528pt x 346.896pt>
+<images/3e_accuracy_64_hidden.png, id=30, 462.528pt x 346.896pt>
 File: images/3e_accuracy_64_hidden.png Graphic file (type png)
 
 <use images/3e_accuracy_64_hidden.png>
@@ -421,14 +421,14 @@ Missing character: There is no œ in font ptmb7t!
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
 s/3e_loss_64_hidden.png> <./images/3e_accuracy_64_hidden.png>]
-<images/32_hidden_loss.png, id=72, 459.6372pt x 351.9549pt>
+<images/32_hidden_loss.png, id=44, 459.6372pt x 351.9549pt>
 File: images/32_hidden_loss.png Graphic file (type png)
 
 <use images/32_hidden_loss.png>
 Package pdftex.def Info: images/32_hidden_loss.png used on input line 74.
 (pdftex.def)             Requested size: 216.81pt x 166.02031pt.
 
-<images/32_hidden_accuracy.png, id=73, 462.528pt x 346.896pt>
+<images/32_hidden_accuracy.png, id=45, 462.528pt x 346.896pt>
 File: images/32_hidden_accuracy.png Graphic file (type png)
 
 <use images/32_hidden_accuracy.png>
@@ -439,14 +439,14 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 74--77
 [][] [][] 
  []
 
-<images/128_hidden_loss.png, id=74, 462.528pt x 346.896pt>
+<images/128_hidden_loss.png, id=46, 462.528pt x 346.896pt>
 File: images/128_hidden_loss.png Graphic file (type png)
 
 <use images/128_hidden_loss.png>
 Package pdftex.def Info: images/128_hidden_loss.png used on input line 84.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/128_hidden_accuracy.png, id=75, 462.528pt x 346.896pt>
+<images/128_hidden_accuracy.png, id=47, 462.528pt x 346.896pt>
 File: images/128_hidden_accuracy.png Graphic file (type png)
 
 <use images/128_hidden_accuracy.png>
@@ -459,24 +459,51 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 84--87
 
 [2 <./images/32_hidden_loss.png> <./images/32_hidden_accuracy.png> <./images/12
 8_hidden_loss.png> <./images/128_hidden_accuracy.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 164.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 164.
- (./document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 164.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 164.
-Package rerunfilecheck Info: File `document.out' has not changed.
-(rerunfilecheck)             Checksum: 523DEE2F4F061DC3FEA5EC2024C25C5C;884.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 164.
+<images/two_layer_loss.png, id=62, 462.528pt x 346.896pt>
+File: images/two_layer_loss.png Graphic file (type png)
+
+<use images/two_layer_loss.png>
+Package pdftex.def Info: images/two_layer_loss.png used on input line 100.
+(pdftex.def)             Requested size: 216.81pt x 162.60709pt.
+
+<images/two_layer_accuracy.png, id=63, 462.528pt x 346.896pt>
+File: images/two_layer_accuracy.png Graphic file (type png)
+
+<use images/two_layer_accuracy.png>
+Package pdftex.def Info: images/two_layer_accuracy.png used on input line 102.
+(pdftex.def)             Requested size: 216.81pt x 162.60709pt.
+
+Overfull \hbox (43.03503pt too wide) in paragraph at lines 100--103
+[][] [][] 
+ []
+
+[3 <./images/two_layer_loss.png> <./images/two_layer_accuracy.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 172.
+ [4]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 172.
+
+(./document.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 172.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 172.
+
+
+Package rerunfilecheck Warning: File `document.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `document.out':
+(rerunfilecheck)             Before: 0078829517CA8DB93E586BEF1608B1D4;392
+(rerunfilecheck)             After:  523DEE2F4F061DC3FEA5EC2024C25C5C;884.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 172.
  ) 
 Here is how much of TeX's memory you used:
- 7676 strings out of 493014
- 111476 string characters out of 6133352
- 203417 words of memory out of 5000000
- 11109 multiletter control sequences out of 15000+600000
+ 7683 strings out of 493014
+ 111673 string characters out of 6133352
+ 203414 words of memory out of 5000000
+ 11110 multiletter control sequences out of 15000+600000
  15236 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,12n,39p,479b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,12n,39p,598b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -484,10 +511,10 @@ live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
 ve/2016/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/
 texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/urw/times/utmr8a.pfb>
-Output written on document.pdf (3 pages, 391815 bytes).
+Output written on document.pdf (4 pages, 498796 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
- 26 named destinations out of 1000 (max. 500000)
- 135 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 116 PDF objects out of 1000 (max. 8388607)
+ 87 compressed objects within 1 object stream
+ 30 named destinations out of 1000 (max. 500000)
+ 89 words of extra memory for PDF output out of 10000 (max. 10000000)
 
