@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.1)  29 JAN 2018 09:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.1)  29 JAN 2018 10:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -478,16 +478,16 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 100--103
  []
 
 [3 <./images/two_layer_loss.png> <./images/two_layer_accuracy.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 179.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 183.
  [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 179.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 183.
 
 (./document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 179.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 179.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 183.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 183.
 Package rerunfilecheck Info: File `document.out' has not changed.
 (rerunfilecheck)             Checksum: 523DEE2F4F061DC3FEA5EC2024C25C5C;884.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 179.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 183.
  ) 
 Here is how much of TeX's memory you used:
  7690 strings out of 493014
@@ -504,7 +504,7 @@ live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
 ve/2016/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/
 texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/urw/times/utmr8a.pfb>
-Output written on document.pdf (4 pages, 499890 bytes).
+Output written on document.pdf (4 pages, 500072 bytes).
 PDF statistics:
  138 PDF objects out of 1000 (max. 8388607)
  108 compressed objects within 2 object streams
