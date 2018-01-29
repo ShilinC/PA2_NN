@@ -93,7 +93,7 @@ Then, we double the hidden units. Now we have a network of 3 layers with a hidde
 
 
 \subsection{Doubling the hidden layers}
-For a network with one hidden of 64 nodes, there are approximately about 50890 parameters. If we increase the hidden layers while keep the same number of parameters, there will be 58 hidden nodes in each hidden layer. We use a momentum of 0.9 and use the sigmoid in Section 4.4 of ``lecun98efficient.pdf". The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9766\%.. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
+For a network with one hidden of 64 nodes, there are approximately about 50890 parameters. If we increase the hidden layers while keep the same number of parameters, there will be 58 hidden nodes in each hidden layer. We use a momentum of 0.9 and use the sigmoid in Section 4.4 of ``lecun98efficient.pdf". The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9766\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -162,11 +162,12 @@ The gradient of leaky ReLU can be caculated as,
 
 
 
-Weu use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
+We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
 
+After 60 epoches, the accuracy on the test set is 0.9723\%.
 
 \subsubsection{Nesterov momentum}
-We consider using Nesterov momentum.
+We consider using Nesterov momentum. We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9734\%.
 
 \subsubsection{Xavier initializtion}
 We consider using Xavier initializtion to initialize the weights.

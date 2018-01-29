@@ -52,7 +52,7 @@ def random_init_weights_fan_in(input_size, output_size):
 
 def Xavier_initializtion(input_size, output_size):
     var = 2.0 / (input_size + output_size)
-    stddev = math.sqrt(variance)
+    stddev = math.sqrt(var)
     return np.random.normal(0.0, stddev, (input_size, output_size))
 
 def random_init_bias(output_size):
@@ -63,8 +63,8 @@ def zero_init_delta_w(input_size, output_size):
 
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights_fan_in, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "Leaky_Relu", 
-        learning_rate = 0.01, momentum = 0.9, epoches = 60, batch_size = 128, nesterov_momentum = 0):
+    def __init__(self, layers, init_method_weights = Xavier_initializtion, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", 
+        learning_rate = 0.01, momentum = 0.9, epoches = 60, batch_size = 128, nesterov_momentum = 1):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
