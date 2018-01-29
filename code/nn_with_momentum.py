@@ -63,7 +63,7 @@ def zero_init_delta_w(input_size, output_size):
 
 class Network():
 
-    def __init__(self, layers, init_method_weights = random_init_weights_fan_in, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", 
+    def __init__(self, layers, init_method_weights = random_init_weights_fan_in, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "Leaky_Relu", 
         learning_rate = 0.01, momentum = 0.9, epoches = 60, batch_size = 128, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
