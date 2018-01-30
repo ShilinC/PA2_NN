@@ -52,7 +52,7 @@ def random_init_weights_fan_in(input_size, output_size):
 
 def Xavier_initializtion(input_size, output_size):
     var = 2.0 / (input_size + output_size)
-    stddev = math.sqrt(var)
+    stddev = math.sqrt(varx)
     return np.random.normal(0.0, stddev, (input_size, output_size))
 
 def random_init_bias(output_size):
