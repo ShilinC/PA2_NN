@@ -52,7 +52,7 @@ def random_init_weights_fan_in(input_size, output_size):
 
 def Xavier_initializtion(input_size, output_size):
     var = 2.0 / (input_size + output_size)
-    stddev = math.sqrt(varx)
+    stddev = math.sqrt(var)
     return np.random.normal(0.0, stddev, (input_size, output_size))
 
 def random_init_bias(output_size):
@@ -64,7 +64,7 @@ def zero_init_delta_w(input_size, output_size):
 class Network():
 
     def __init__(self, layers, init_method_weights = Xavier_initializtion, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", 
-        learning_rate = 0.01, momentum = 0.9, epoches = 60, batch_size = 128, nesterov_momentum = 1):
+        learning_rate = 0.01, momentum = 0.0, epoches = 60, batch_size = 128, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -129,6 +129,39 @@ class Network():
 
         return activations, pre_activations
 
+    def gradient_check(self, dw, train_data_batch, train_label_batch):
+        epsilon = np.power(10,-2.0)
+        for k in range(0, np.array(self.w).shape[0]):
+            for i in range(0, np.array(self.w)[k].shape[0]):
+                for j in range(0, np.array(self.w)[k].shape[1]):
+                    self.w[k][i][j] = self.w[k][i][j] + epsilon
+                    loss_plus = self.loss_check(train_data_batch, train_label_batch)
+                    self.w[k][i][j] = self.w[k][i][j] - 2 * epsilon
+                    loss_minus = self.loss_check(train_data_batch, train_label_batch)
+                    self.w[k][i][j] = self.w[k][i][j] + epsilon
+                    if np.abs((loss_plus - loss_minus) / (2 * epsilon) - dw[k][i][j]) <= np.power(10,-4.0):
+                        print("gradient check passed!")
+                    else:
+                        print("gradient check failed!")
+
+
+    def loss_check(self, input_data, train_label_batch):
+        pred_y = self.forward_check(input_data)
+
+        pred_y[pred_y == 0.0] = 1e-15
+        log_pred_y = np.log(pred_y)
+        loss_ = -np.sum(train_label_batch * log_pred_y) / (train_label_batch.shape[0]+0.0)
+
+        return loss_
+    
+    def forward_check(self, x):
+        for weight, bias in zip(self.w[:-1], self.b[:-1]):
+            x = self.activation_fn(np.matmul(x, weight) + bias)
+
+        pred_y = softmax(np.matmul(x, self.w[-1]) + self.b[-1])
+        return pred_y        
+
+
     def momentum_update(self, gradient, delta_w_):
         delta_w_ = self.learning_rate * gradient / (self.batch_size+0.0) + self.momentum * delta_w_ #delta_w has same dimension as w
         return delta_w_  
@@ -147,6 +180,8 @@ class Network():
             dw_, db_ = self.backpropagation(train_data, train_label)
             dw = [dweight + dweight_ for dweight, dweight_ in zip(dw, dw_)]
             db = [dbias + dbias_ for dbias, dbias_ in zip(db, db_)]
+
+        self.gradient_check(dw, train_data_batch, train_label_batch)
 
         if self.nesterov_momentum == 1:
             #nesterov_momentum
