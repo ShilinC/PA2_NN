@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.1)  31 JAN 2018 10:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.1)  31 JAN 2018 11:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -395,14 +395,14 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 42.
 
-<images/3e_loss_64_hidden.png, id=56, 462.528pt x 346.896pt>
+<images/3e_loss_64_hidden.png, id=60, 462.528pt x 346.896pt>
 File: images/3e_loss_64_hidden.png Graphic file (type png)
 
 <use images/3e_loss_64_hidden.png>
 Package pdftex.def Info: images/3e_loss_64_hidden.png used on input line 55.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/3e_accuracy_64_hidden.png, id=58, 462.528pt x 346.896pt>
+<images/3e_accuracy_64_hidden.png, id=62, 462.528pt x 346.896pt>
 File: images/3e_accuracy_64_hidden.png Graphic file (type png)
 
 <use images/3e_accuracy_64_hidden.png>
@@ -423,14 +423,14 @@ Underfull \vbox (badness 5741) has occurred while \output is active []
  [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<images/32_hidden_loss.png, id=74, 459.6372pt x 351.9549pt>
+<images/32_hidden_loss.png, id=78, 459.6372pt x 351.9549pt>
 File: images/32_hidden_loss.png Graphic file (type png)
 
 <use images/32_hidden_loss.png>
 Package pdftex.def Info: images/32_hidden_loss.png used on input line 78.
 (pdftex.def)             Requested size: 216.81pt x 166.02031pt.
 
-<images/32_hidden_accuracy.png, id=75, 462.528pt x 346.896pt>
+<images/32_hidden_accuracy.png, id=79, 462.528pt x 346.896pt>
 File: images/32_hidden_accuracy.png Graphic file (type png)
 
 <use images/32_hidden_accuracy.png>
@@ -441,14 +441,14 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 78--81
 [][] [][] 
  []
 
-<images/128_hidden_loss.png, id=76, 462.528pt x 346.896pt>
+<images/128_hidden_loss.png, id=80, 462.528pt x 346.896pt>
 File: images/128_hidden_loss.png Graphic file (type png)
 
 <use images/128_hidden_loss.png>
 Package pdftex.def Info: images/128_hidden_loss.png used on input line 88.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/128_hidden_accuracy.png, id=77, 462.528pt x 346.896pt>
+<images/128_hidden_accuracy.png, id=81, 462.528pt x 346.896pt>
 File: images/128_hidden_accuracy.png Graphic file (type png)
 
 <use images/128_hidden_accuracy.png>
@@ -461,14 +461,14 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 88--91
 
 [2 <./images/3e_loss_64_hidden.png> <./images/3e_accuracy_64_hidden.png> <./ima
 ges/32_hidden_loss.png> <./images/32_hidden_accuracy.png>]
-<images/two_layer_loss.png, id=92, 462.528pt x 346.896pt>
+<images/two_layer_loss.png, id=96, 462.528pt x 346.896pt>
 File: images/two_layer_loss.png Graphic file (type png)
 
 <use images/two_layer_loss.png>
 Package pdftex.def Info: images/two_layer_loss.png used on input line 104.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/two_layer_accuracy.png, id=93, 462.528pt x 346.896pt>
+<images/two_layer_accuracy.png, id=97, 462.528pt x 346.896pt>
 File: images/two_layer_accuracy.png Graphic file (type png)
 
 <use images/two_layer_accuracy.png>
@@ -481,14 +481,14 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 104--107
 
 [3 <./images/128_hidden_loss.png> <./images/128_hidden_accuracy.png> <./images/
 two_layer_loss.png> <./images/two_layer_accuracy.png>]
-<images/relu_loss.png, id=108, 462.528pt x 346.896pt>
+<images/relu_loss.png, id=112, 462.528pt x 346.896pt>
 File: images/relu_loss.png Graphic file (type png)
 
 <use images/relu_loss.png>
 Package pdftex.def Info: images/relu_loss.png used on input line 147.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/relu_accuracy.png, id=109, 462.528pt x 346.896pt>
+<images/relu_accuracy.png, id=113, 462.528pt x 346.896pt>
 File: images/relu_accuracy.png Graphic file (type png)
 
 <use images/relu_accuracy.png>
@@ -499,14 +499,14 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 147--150
 [][] [][] 
  []
 
-<images/leaky_relu_loss.png, id=110, 462.528pt x 346.896pt>
+<images/leaky_relu_loss.png, id=114, 462.528pt x 346.896pt>
 File: images/leaky_relu_loss.png Graphic file (type png)
 
 <use images/leaky_relu_loss.png>
 Package pdftex.def Info: images/leaky_relu_loss.png used on input line 188.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/leaky_relu_accuracy.png, id=111, 462.528pt x 346.896pt>
+<images/leaky_relu_accuracy.png, id=115, 462.528pt x 346.896pt>
 File: images/leaky_relu_accuracy.png Graphic file (type png)
 
 <use images/leaky_relu_accuracy.png>
@@ -523,7 +523,7 @@ File: images/leaky_relu_loss.png Graphic file (type png)
 Package pdftex.def Info: images/leaky_relu_loss.png used on input line 203.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/nestorov_accuracy.png, id=112, 462.528pt x 346.896pt>
+<images/nestorov_accuracy.png, id=116, 462.528pt x 346.896pt>
 File: images/nestorov_accuracy.png Graphic file (type png)
 
 <use images/nestorov_accuracy.png>
@@ -536,39 +536,39 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 203--206
 
 [4 <./images/relu_loss.png> <./images/relu_accuracy.png>] [5 <./images/leaky_re
 lu_loss.png> <./images/leaky_relu_accuracy.png> <./images/nestorov_accuracy.png
->] <images/xavier_loss.png, id=136, 462.528pt x 346.896pt>
+>] <images/xavier_loss.png, id=140, 462.528pt x 346.896pt>
 File: images/xavier_loss.png Graphic file (type png)
 
 <use images/xavier_loss.png>
-Package pdftex.def Info: images/xavier_loss.png used on input line 222.
+Package pdftex.def Info: images/xavier_loss.png used on input line 220.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-<images/xavier_acc.png, id=137, 462.528pt x 346.896pt>
+<images/xavier_acc.png, id=141, 462.528pt x 346.896pt>
 File: images/xavier_acc.png Graphic file (type png)
 
 <use images/xavier_acc.png>
-Package pdftex.def Info: images/xavier_acc.png used on input line 224.
+Package pdftex.def Info: images/xavier_acc.png used on input line 222.
 (pdftex.def)             Requested size: 216.81pt x 162.60709pt.
 
-Overfull \hbox (43.03503pt too wide) in paragraph at lines 222--225
+Overfull \hbox (43.03503pt too wide) in paragraph at lines 220--223
 [][] [][] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 233.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 232.
 [6 <./images/xavier_loss.png> <./images/xavier_acc.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 233.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 232.
  (./document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 233.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 233.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 232.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 232.
 Package rerunfilecheck Info: File `document.out' has not changed.
-(rerunfilecheck)             Checksum: 094679E058816CFD874C207BCFEA9561;884.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 233.
+(rerunfilecheck)             Checksum: CF88EF40F7703450934DB5FB8CB50A43;927.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 232.
  ) 
 Here is how much of TeX's memory you used:
- 7739 strings out of 493014
- 112887 string characters out of 6133352
+ 7741 strings out of 493014
+ 112907 string characters out of 6133352
  204429 words of memory out of 5000000
- 11145 multiletter control sequences out of 15000+600000
+ 11146 multiletter control sequences out of 15000+600000
  15236 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,12n,39p,597b,337s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -584,10 +584,10 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/te
 xmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb>
-Output written on document.pdf (6 pages, 921964 bytes).
+Output written on document.pdf (6 pages, 922734 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
- 146 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 500000)
- 180 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 201 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
+ 45 named destinations out of 1000 (max. 500000)
+ 188 words of extra memory for PDF output out of 10000 (max. 10000000)
 

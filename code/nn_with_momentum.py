@@ -139,7 +139,7 @@ class Network():
                     self.w[k][i][j] = self.w[k][i][j] - 2 * epsilon
                     loss_minus = self.loss_check(train_data_batch, train_label_batch)
                     self.w[k][i][j] = self.w[k][i][j] + epsilon
-                    if np.abs((loss_plus - loss_minus) / (2 * epsilon) - dw[k][i][j]) <= np.power(10,-4.0):
+                    if np.abs((loss_plus - loss_minus) / (2 * epsilon) + dw[k][i][j]) <= np.power(10,-4.0):
                         print("gradient check passed!")
                     else:
                         print("gradient check failed!")
@@ -161,7 +161,6 @@ class Network():
         pred_y = softmax(np.matmul(x, self.w[-1]) + self.b[-1])
         return pred_y        
 
-
     def momentum_update(self, gradient, delta_w_):
         delta_w_ = self.learning_rate * gradient / (self.batch_size+0.0) + self.momentum * delta_w_ #delta_w has same dimension as w
         return delta_w_  
@@ -178,10 +177,12 @@ class Network():
 
         for train_data, train_label in zip(train_data_batch, train_label_batch):
             dw_, db_ = self.backpropagation(train_data, train_label)
+
             dw = [dweight + dweight_ for dweight, dweight_ in zip(dw, dw_)]
             db = [dbias + dbias_ for dbias, dbias_ in zip(db, db_)]
+            self.gradient_check(dw_, train_data, train_label)
 
-        self.gradient_check(dw, train_data_batch, train_label_batch)
+        #self.gradient_check(dw, train_data_batch, train_label_batch)
 
         if self.nesterov_momentum == 1:
             #nesterov_momentum
