@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  31 JAN 2018 10:15
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  31 JAN 2018 10:35
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -376,9 +376,34 @@ Overfull \hbox (43.03503pt too wide) in paragraph at lines 118--121
 [][] [][] 
  []
 
+File: images/relu_loss.png Graphic file (type QTm)
+<use  "images/relu_loss.png" >
+File: images/relu_accuracy.png Graphic file (type QTm)
+ <use  "images/relu_accuracy.png" >
+Overfull \hbox (43.03503pt too wide) in paragraph at lines 161--164
+[][] [][] 
+ []
+
 [4]
-/Users/shilinzhu/Documents/PA2_NN/report/TSWLatexianTemp_document.tex:207: Misplaced alignment tab character &.
-l.207 [1] LeCun, Y., Bottou, L., Orr, G. B., &
+File: images/leaky_relu_loss.png Graphic file (type QTm)
+ <use  "images/leaky_relu_loss.png" >
+File: images/leaky_relu_accuracy.png Graphic file (type QTm)
+ <use  "images/leaky_relu_accuracy.png" >
+Overfull \hbox (43.03503pt too wide) in paragraph at lines 202--205
+[][] [][] 
+ []
+
+File: images/leaky_relu_loss.png Graphic file (type QTm)
+<use  "images/leaky_relu_loss.png" >
+File: images/nestorov_accuracy.png Graphic file (type QTm)
+ <use  "images/nestorov_accuracy.png" >
+Overfull \hbox (43.03503pt too wide) in paragraph at lines 217--220
+[][] [][] 
+ []
+
+[5]
+/Users/shilinzhu/Documents/PA2_NN/report/TSWLatexianTemp_document.tex:246: Misplaced alignment tab character &.
+l.246 [1] LeCun, Y., Bottou, L., Orr, G. B., &
                                                Müller, K. R. (1998). Efficient backprop. In Neural networks: Tricks of the trade (pp. 9-50). Springer, Berlin, Heidelberg.
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -388,25 +413,33 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 Missing character: There is no ü in font ptmr7t!
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 211.
-[5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 211.
+File: images/xavier_loss.png Graphic file (type QTm)
+<use  "images/xavier_loss.png" >
+File: images/xavier_acc.png Graphic file (type QTm)
+ <use  "images/xavier_acc.png" >
+Overfull \hbox (43.03503pt too wide) in paragraph at lines 250--253
+[][] [][] 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 262.
+[6] [7]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 262.
  (./TSWLatexianTemp_document.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 211.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 211.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 211.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 262.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 262.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 262.
  )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 206 ({)
+### simple group (level 1) entered at line 245 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 10599 strings out of 493706
- 147751 string characters out of 6145769
+ 10613 strings out of 493706
+ 148044 string characters out of 6145769
  220941 words of memory out of 5000000
- 13865 multiletter control sequences out of 15000+600000
+ 13872 multiletter control sequences out of 15000+600000
  9820 words of font info for 28 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 37i,12n,45p,654b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,12n,45p,654b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on TSWLatexianTemp_document.pdf (5 pages).
+Output written on TSWLatexianTemp_document.pdf (7 pages).
