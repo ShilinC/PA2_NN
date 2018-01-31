@@ -56,7 +56,7 @@ We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a le
 	\subfigure[]{   
 		\includegraphics[width=3in]{images/3e_accuracy_64_hidden.png}}
 	
-	\caption{The loss and accuacy of different sets over the batches. }  
+	\caption{The loss and accuacy of different sets over the batches without any tricks. }  
 	
 \end{figure*}
 
@@ -141,6 +141,18 @@ We use a three layer network with a hidden layer with 64 nodes. We use a momentu
 
 
 
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/relu_loss.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/relu_accuracy.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with ReLU. }  
+\end{figure*}
+
+
+
 \subsubsection{Leaky ReLU}
 
 We consider using leaky ReLU as the activation function. The leaky ReLU function can be 
@@ -170,14 +182,51 @@ We use a three layer network with a hidden layer with 64 nodes. We use a momentu
 
 After 60 epoches, the accuracy on the test set is 0.9723\%.
 
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/leaky_relu_loss.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/leaky_relu_accuracy.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with leaky ReLU. }  
+	
+\end{figure*}
+
+
+
 \subsubsection{Nesterov momentum}
 We consider using Nesterov momentum. We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9734\%.
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/leaky_relu_loss.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/nestorov_accuracy.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with Nesterov momentum. }  
+	
+\end{figure*}
+
+
 
 \subsubsection{Xavier initializtion}
 We consider using Xavier initializtion. We use a three layer network with a hidden layer with 64 nodes. We use a nesterov momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
 
 
+
 0.9751\%.
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/xavier_loss.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/xavier_acc.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with Xavier initializtion. }  
+	
+\end{figure*}
+
 
 
 
