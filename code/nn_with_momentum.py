@@ -64,7 +64,7 @@ def zero_init_delta_w(input_size, output_size):
 class Network():
 
     def __init__(self, layers, init_method_weights = Xavier_initializtion, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", 
-        learning_rate = 0.01, momentum = 0.0, epoches = 60, batch_size = 128, nesterov_momentum = 0):
+        learning_rate = 0.001, momentum = 0.0, epoches = 60, batch_size = 1, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -253,6 +253,7 @@ class Network():
                 train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
                 self.update_mini_batch(train_data_batch, train_label_batch)
                 
+                '''
                 pred_y_train = self.forward(training_images)
                 pred_y_test = self.forward(test_images)
                 pred_y_validation = self.forward(validation_images)
@@ -301,7 +302,7 @@ class Network():
         plt.title('Loss VS Batches', fontsize=15)
         fig2.show()           
         plt.show()
-    
+        '''
 if __name__ == '__main__':        
     # Read datasets
     data = MNIST('./python-mnist/data')
@@ -324,5 +325,10 @@ if __name__ == '__main__':
     training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
     one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
     
+    training_images = training_images[0:1]
+    one_hot_train_labels = one_hot_train_labels[0:1]
+    training_labels = training_labels[0:1]
+
+
     nn = Network([784, 64, 10])
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
