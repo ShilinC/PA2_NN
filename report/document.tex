@@ -40,6 +40,7 @@ La Jolla, CA \\
 \begin{document}
 \maketitle
 \section{Abstract}
+In this report, we improve the handwritten digits recognition with multi-layer back-propagation neural networks. We correctly derived and implemented back-propagation algorithm and many tricks of the trade to improve the performance of learning. Furthermore, we try out different network topologies to select the best model based on the accuracy on validation set. The results are quite satisfying: using all the tricks of the trade and model selection strategy, we successfully achieve $97.51\%$ on the final test set.
 
 \section{Classification}
 \subsection{Mini-batch gradient descent}
@@ -58,6 +59,9 @@ We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a le
 	\caption{The loss and accuacy of different sets over the batches. }  
 	
 \end{figure*}
+
+\subsection{Gradient checking}
+To verify the correctness of implementation of back-propagation, we compute the slope with respect to one weight using the numerical approximation: $\frac{\partial E^{n}}{\partial w_{ij}} \approx \frac{E^{n}(w_{ij}+\epsilon)-E^{n}(w_{ij}-\epsilon)}{2\epsilon}$ where we compute the numerical gradient for every weight and bias and for every example. Here we choose $\epsilon = 10^{-2}$ and according to the numerical theory, the difference between the gradients should be within $O(\epsilon^{2})$ so that we expect the gradients to agree within $10^{-4}$. 
 
 \section{Adding the “Tricks of the Trade"}
 
