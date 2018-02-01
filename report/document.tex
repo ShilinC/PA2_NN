@@ -46,9 +46,9 @@ In this report, we improve the handwritten digits recognition with multi-layer b
 \subsection{Mini-batch gradient descent}
 In this section, we use mini-batch gradient descent to classify the MNIST dataset. We split the 60000 images in the training set into two parts: the first 50000 images are used to train the model, the last 10000 images are used as validation set to do early stopping. We stop the training procedure once the loss on the validation set goes up and we save the weights that achieves the minimum loss on the validation set. And there are 10000 images in the test set.
 
-We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a learning rate of 0.01 and sigmoid activation function. We use standard normal distribution to initialize the weights and biases. For the weights, we multiply 0.01 to prevent large initialized values. We run the network for 60 epoches.
+We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a learning rate of 0.01 and sigmoid activation function. We use standard normal distribution to initialize the weights and biases. For the weights, we multiply 0.01 to prevent large initialized values. We run the network for 60 epoches. We shuffle the dataset in each dataset.
 
- We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets. Without any tricks, after 60 epoches, the accuracy on the test set is 0.9308\%. This is no early stopping occurs, the possible reason is that the choice of learning is small
+We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets. Without any tricks, after 60 epoches, the accuracy on the test set is 0.9308\%. This is no early stopping occurs, the possible reason is that the choice of learning is small
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -107,6 +107,18 @@ First, we half the hidden units. Now we have a network of 3 layers with a hidden
 	
 \end{figure*}
 Then, we double the hidden units. Now we have a network of 3 layers with a hidden layer with 128 nodes. We run the network for 60 epoches except early stopping occurs. After 60 epoches, the accuracy on the test set is 0.9787\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
+
+To further examine the influence of the numebr of hidden units, we decrease the hidden units to two nodes. We find that using two hidden units cannot capture the relation between different pixels. This suggests that if the number of
+hidden units is too small, we cannot get good results. If the number is too large, we can capture the information between pixels, but it can lead to overfitting and have much more parameters to tune.
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/2_hidden_loss.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/2_accuracy.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with a hidden layer of 2 hidden nodes. }  
+\end{figure*}
 
 
 
@@ -210,7 +222,7 @@ After 60 epoches, the accuracy on the test set is 0.9723\%.
 
 
 \subsubsection{Nesterov momentum}
-We consider using Nesterov momentum. We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9734\%.
+We consider using Nesterov momentum. We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 97.34\%.
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -223,11 +235,10 @@ We consider using Nesterov momentum. We use a three layer network with a hidden 
 \end{figure*}
 
 
-
 \subsubsection{Xavier initializtion}
-We consider using Xavier initializtion. We use a three layer network with a hidden layer with 64 nodes. We use a nesterov momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
+We consider using Xavier initializtion. We use a three layer network with a hidden layer with 64 nodes. We use a nesterov momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 97.51\%. 
 
-97.51\%.
+
 \begin{figure*} [!htbp]
 	\subfigure[]{   
 		\includegraphics[width=3in]{images/xavier_loss.png}}
@@ -238,11 +249,16 @@ We consider using Xavier initializtion. We use a three layer network with a hidd
 	
 \end{figure*}
 
-
 \section{Summary}
-In this work, we successfully derived and implemented multilayer backpropagation neural networks based handwritten digits recognition. We achieve a test accuracy around 97.5\%. We experimented with different tricks and different network topology. Many of the tricks improve the performance and the convergence speed. This makes us better understand the training process of the backpropagation. We found that use ReLU and add momentum can greatly improve of performance of the network. Overall, we learnt a lot from this assignment and understand backpropagation better.
+In this work, we successfully derived and implemented multilayer backpropagation neural networks based handwritten digits recognition. We achieve a test accuracy around 97.5\%. We experimented with different tricks and different network topology. Many of the tricks improve the performance and the convergence speed. This makes us better understand the training process of the backpropagation. We found that use ReLU and add momentum can greatly improve of performance of the network. Overall, we learnt a lot from this assignment and understand backpropagation better. 
 
 \section{Contributions}
+
+\textbf{Shilin Zhu} did the implementation of gradient checking in Section 3.d and added the tricks in Section 4.
+
+\textbf{Yunhui Guo} did the implementation of mini-batch gradient descent in Section 3(a,b,c,e) and experimented with network topology in Section 5.
+
+Three discussions and pair programming were made before submitting this report.
 
 \subsubsection*{Acknowledgments}
 
