@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import time
 
 import sys
 sys.path.append('./python-mnist/')
@@ -63,8 +64,8 @@ def zero_init_delta_w(input_size, output_size):
 
 class Network():
 
-    def __init__(self, layers, init_method_weights = Xavier_initializtion, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "ReLU", 
-        learning_rate = 0.001, momentum = 0.0, epoches = 60, batch_size = 1, nesterov_momentum = 0):
+    def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "sigmoid", 
+        learning_rate = 0.01, momentum = 0.0, epoches = 60, batch_size = 128, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -144,6 +145,21 @@ class Network():
                     else:
                         print("gradient check failed!")
 
+    def bias_gradient_check(self, db, train_data_batch, train_label_batch):
+        epsilon = np.power(10,-2.0)
+        for k in range(0, np.array(self.b).shape[0]):
+            for i in range(0, np.array(self.b)[k].shape[0]):
+                for j in range(0, np.array(self.b)[k].shape[1]):
+                    self.b[k][i][j] = self.b[k][i][j] + epsilon
+                    loss_plus = self.loss_check(train_data_batch, train_label_batch)
+                    self.b[k][i][j] = self.b[k][i][j] - 2 * epsilon
+                    loss_minus = self.loss_check(train_data_batch, train_label_batch)
+                    self.b[k][i][j] = self.b[k][i][j] + epsilon
+                    if np.abs((loss_plus - loss_minus) / (2 * epsilon) + db[k][i][j]) <= np.power(10,-4.0):
+                        print("bias gradient check passed!")
+                    else:
+                        print("bias gradient check failed!")                        
+
 
     def loss_check(self, input_data, train_label_batch):
         pred_y = self.forward_check(input_data)
@@ -180,7 +196,8 @@ class Network():
 
             dw = [dweight + dweight_ for dweight, dweight_ in zip(dw, dw_)]
             db = [dbias + dbias_ for dbias, dbias_ in zip(db, db_)]
-            self.gradient_check(dw_, train_data, train_label)
+            #self.gradient_check(dw_, train_data, train_label)
+            #self.bias_gradient_check(db_, train_data, train_label)
 
         #self.gradient_check(dw, train_data_batch, train_label_batch)
 
@@ -244,17 +261,20 @@ class Network():
 
         stop_training = False
         for epoch in range(self.epoches):
-            idxs = np.random.permutation(training_images.shape[0]) 
-            X_random = training_images[idxs]
-            Y_random = one_hot_train_labels[idxs]
-            print epoch
+            #idxs = np.random.permutation(training_images.shape[0]) 
+            #X_random = training_images[idxs]
+            #Y_random = one_hot_train_labels[idxs]
+            print(epoch)
 
-            for i in range(batch_count):
-                train_data_batch = X_random[i * self.batch_size: (i+1) * self.batch_size, :]
-                train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]                
+            for i in range(int(batch_count)):
+                #train_data_batch = X_random[i * self.batch_size: (i+1) * self.batch_size, :]
+                #train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]   
+                train_data_batch = training_images[i * self.batch_size: (i+1) * self.batch_size, :]
+                train_label_batch = one_hot_train_labels[i * self.batch_size: (i+1) * self.batch_size, :]   
+
                 self.update_mini_batch(train_data_batch, train_label_batch)
                 
-                '''
+                
                 pred_y_train = self.forward(training_images)
                 pred_y_test = self.forward(test_images)
                 pred_y_validation = self.forward(validation_images)
@@ -279,7 +299,7 @@ class Network():
                 break
 
             pred_y_test = self.forward(test_images)
-            print self.accuracy(pred_y_test, test_labels)
+            print(self.accuracy(pred_y_test, test_labels))
 
         fig1 = plt.figure(1)
         plt.plot(training_accuracy_all,'r-')
@@ -303,7 +323,7 @@ class Network():
         plt.title('Loss VS Batches', fontsize=15)
         fig2.show()           
         plt.show()
-        '''
+        
 if __name__ == '__main__':        
     # Read datasets
     data = MNIST('./python-mnist/data')
@@ -326,10 +346,22 @@ if __name__ == '__main__':
     training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
     one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
     
-    training_images = training_images[0:1]
-    one_hot_train_labels = one_hot_train_labels[0:1]
-    training_labels = training_labels[0:1]
+    #For gradient check
+    #training_images = training_images[0:1]
+    #one_hot_train_labels = one_hot_train_labels[0:1]
+    #training_labels = training_labels[0:1]
 
 
     nn = Network([784, 64, 10])
+
+    begin = time.time()
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
+    end = time.time()
+    print("Running Time: " + str(end-begin))
+
+    #Original: 
+
+
+
+
+
