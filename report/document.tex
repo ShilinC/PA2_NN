@@ -120,7 +120,7 @@ The activation function highly affects the learning process including speed and 
 	\label{fig:P3}
 \end{figure*}
 
-Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example and special designed sigmoid tricks and re-run the learning process. The final test set accuracy is $94.56\%$ after 30 epochs, showing a large improvement of performance. This indicates that the activation function highly affects the learning process.
+Fig. \ref{fig:P3} shows the result on the network after adding the shuffling example and special designed sigmoid tricks and re-run the learning process. The final test set accuracy is $94.56\%$ after 30 epochs, showing a large improvement of performance. This indicates that the activation function highly affects the learning process.
 
 \subsection{Weight initialization}
 In order to improve and speed up the learning process, it is better to make the outputs of each node have mean zero and a standard deviation of approximately one. Assuming that the training set has been normalized and we use the previous modified sigmoid function, then we can derive that weights should be randomly drawn from a distribution with zero mean and standard deviation as $\sigma = m^{-1/2}$ where $m$ is the number of connections feeding into the node. 
@@ -135,7 +135,7 @@ In order to improve and speed up the learning process, it is better to make the 
 	\label{fig:P4}
 \end{figure*}
 
-Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example, special designed sigmoid, and fan-in weight initialization tricks and re-run the learning process. The final test set accuracy is $95.00\%$ after 30 epochs, showing a small improvement of performance.
+Fig. \ref{fig:P4} shows the result on the network after adding the shuffling example, special designed sigmoid, and fan-in weight initialization tricks and re-run the learning process. The final test set accuracy is $95.00\%$ after 30 epochs, showing a small improvement of performance.
 
 \subsection{Momentum}
 Momentum ($\Delta w(t+1) = \eta\frac{\partial E_{t+1}}{\partial w} + \mu \Delta w(t)$) can increase speed when the cost surface is highly non-spherical since it damps the size of steps along directions of high curvature thus yielding a larger effective learning rate along the directions of low curvature. 
@@ -150,7 +150,7 @@ Momentum ($\Delta w(t+1) = \eta\frac{\partial E_{t+1}}{\partial w} + \mu \Delta 
 	\label{fig:P5}
 \end{figure*}
 
-Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example, special designed sigmoid, fan-in weight initialization, and momentum tricks and re-run the learning process. The final test set accuracy is $97.19\%$ after 30 epochs, showing a large improvement of performance. This indicates that adding momentum can largely increase the speed of learning.
+Fig. \ref{fig:P5} shows the result on the network after adding the shuffling example, special designed sigmoid, fan-in weight initialization, and momentum tricks and re-run the learning process. The final test set accuracy is $97.19\%$ after 30 epochs, showing a large improvement of performance. This indicates that adding momentum can largely increase the speed of learning.
 
 To sum up, these tricks can all help increase the learning speed so that it is essential to carefully consider the model of the network, initialization, activation function and optimization method.
 
