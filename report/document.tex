@@ -48,7 +48,7 @@ In this section, we use mini-batch gradient descent to classify the MNIST datase
 
 We use one hidden layer of 64 nodes, and the mini-batch size is 128. We use a learning rate of 0.01 and sigmoid activation function. We use standard normal distribution to initialize the weights and biases. For the weights, we multiply 0.01 to prevent large initialized values. We run the network for 60 epoches. We shuffle the dataset in each dataset.
 
-We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets. Without any tricks, after 60 epoches, the accuracy on the test set is 0.9308\%. This is no early stopping occurs, the possible reason is that the choice of learning is small
+We report the accuracy and loss on the training set, test se and validation set every batch. The following graphs show the accuracy and loss over each batch on different sets. Without any tricks, after 60 epoches, the accuracy on the test set is 0.9308\%. This is no early stopping occurs, the possible reason is that the choice of learning is small. The results are shown in Fig \ref{figure: 1}.
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -57,35 +57,109 @@ We report the accuracy and loss on the training set, test se and validation set 
 		\includegraphics[width=3in]{images/3e_accuracy_64_hidden.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches without any tricks. }  
+	\label{figure: 1}
 	
 \end{figure*}
 
 \subsection{Gradient checking}
-To verify the correctness of implementation of back-propagation, we compute the slope with respect to one weight using the numerical approximation: $\frac{\partial E^{n}}{\partial w_{ij}} \approx \frac{E^{n}(w_{ij}+\epsilon)-E^{n}(w_{ij}-\epsilon)}{2\epsilon}$ where we compute the numerical gradient for every weight and bias and for every example. Here we choose $\epsilon = 10^{-2}$ and according to the numerical theory, the difference between the gradients should be within $O(\epsilon^{2})$ so that we expect the gradients to agree within $10^{-4}$. 
+To verify the correctness of implementation of back-propagation, we compute the slope with respect to one weight using the numerical approximation: $\frac{\partial E^{n}}{\partial w_{ij}} \approx \frac{E^{n}(w_{ij}+\epsilon)-E^{n}(w_{ij}-\epsilon)}{2\epsilon}$ where we compute the numerical gradient for every weight and bias and for every example. Here we choose $\epsilon = 10^{-2}$ and according to the numerical theory, the difference between the gradients should be within $O(\epsilon^{2})$ so that we expect the gradients to agree within $10^{-4}$. The gradient checker on weights and biases has verified our backpropagation implementation as shown in Fig. \ref{fig:check}.
 
 After successfully verifying that our back-propagation implementation is correct, we turn off the numerical gradient checking when learning since it is way slower than back-propagation.
 
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/weight_check.jpg}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/bias_check.jpg}}
+	
+	\caption{Gradient checking results. (left) verification on weights. (right) verification on biases. }  
+	\label{fig:check}
+\end{figure*}
+
 \section{Adding the Tricks of the Trade}
-In this section, we follow Yann LeCun's paper [1] to understand and implement several tricks of the trade. In the next section we will add more tricks at the same time when we try out different network topologies. 
+In this section, we follow Yann LeCun's paper [1] to understand and implement several tricks of the trade. In the next section we will add more tricks at the same time when we try out different network topologies. Here for simple comparison, we re-run the entire network for 30 epochs (where in the next section we will use 60 epochs) after we add each of these tricks to show the performance improvement after implementing each trick. 
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_1_1.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_1_2.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches without any tricks. }  
+	\label{fig:P1}
+\end{figure*}
+
+Fig. \ref{fig:P1} shows the result on original vanilla version of the model without adding any tricks. The final test accuracy is $91.12\%$ after 30 epochs. 
 
 \subsection{Training data shuffling}
 According to [1], we should shuffle the training set so that successive training example rarely belong to the same class and present input examples that produce a large error more frequently than examples that produce a small error. Here we use mini-batches and we shuffle the examples after each epoch. 
 
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_2_2.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_2_1.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with shuffling example trick. }  
+	\label{fig:P2}
+\end{figure*}
+
+Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example trick and re-run the learning process. The final test set accuracy is $91.26\%$ after 30 epochs, showing some degree of improvement.
+
+
 \subsection{Activation function}
 The activation function highly affects the learning process including speed and ability of representation such as non-linearity so it is critical to set it correct. According to [1], we should use symmetric sigmoids such as hyperbolic tangent since it often converge faster than the standard logistic function. Here we use the recommended sigmoid $f(x) = 1.7159*\tanh(2x/3)$ since it has several good properties: (a) $f(1) = 1, f(-1) = -1$, (b) the second derivative is maximum at $x = 1$ which can make good use of non-linearity, (c) the effective gain is close to 1. 
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_3_1.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_3_2.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with shuffling example and special designed sigmoid tricks. }  
+	\label{fig:P3}
+\end{figure*}
+
+Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example and special designed sigmoid tricks and re-run the learning process. The final test set accuracy is $94.56\%$ after 30 epochs, showing a large improvement of performance. This indicates that the activation function highly affects the learning process.
 
 \subsection{Weight initialization}
 In order to improve and speed up the learning process, it is better to make the outputs of each node have mean zero and a standard deviation of approximately one. Assuming that the training set has been normalized and we use the previous modified sigmoid function, then we can derive that weights should be randomly drawn from a distribution with zero mean and standard deviation as $\sigma = m^{-1/2}$ where $m$ is the number of connections feeding into the node. 
 
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_4_1.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_4_2.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with shuffling example, special designed sigmoid, and fan-in weight initialization tricks. }  
+	\label{fig:P4}
+\end{figure*}
+
+Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example, special designed sigmoid, and fan-in weight initialization tricks and re-run the learning process. The final test set accuracy is $95.00\%$ after 30 epochs, showing a small improvement of performance.
+
 \subsection{Momentum}
 Momentum ($\Delta w(t+1) = \eta\frac{\partial E_{t+1}}{\partial w} + \mu \Delta w(t)$) can increase speed when the cost surface is highly non-spherical since it damps the size of steps along directions of high curvature thus yielding a larger effective learning rate along the directions of low curvature. 
+
+\begin{figure*} [!htbp]
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_5_1.png}}
+	\subfigure[]{   
+		\includegraphics[width=3in]{images/Figure_5_2.png}}
+	
+	\caption{The loss and accuacy of different sets over the batches with shuffling example, special designed sigmoid, fan-in weight initialization, and momentum tricks. }  
+	\label{fig:P5}
+\end{figure*}
+
+Fig. \ref{fig:P2} shows the result on the network after adding the shuffling example, special designed sigmoid, fan-in weight initialization, and momentum tricks and re-run the learning process. The final test set accuracy is $97.19\%$ after 30 epochs, showing a large improvement of performance. This indicates that adding momentum can largely increase the speed of learning.
+
+To sum up, these tricks can all help increase the learning speed so that it is essential to carefully consider the model of the network, initialization, activation function and optimization method.
 
 \section{Experiment with Network Topology}
 
 \subsection{Experiments with differnet hidden units}
 We use a momentum of 0.9 and use the sigmoid in Section 4.4 of ``lecun98efficient.pdf". The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
 
-First, we half the hidden units. Now we have a network of 3 layers with a hidden layer with 32 nodes. We run the network for 60 epoches except early stopping occurs. After 60 epoches, the accuracy on the test set is 0.9635\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
+First, we half the hidden units. Now we have a network of 3 layers with a hidden layer with 32 nodes. We run the network for 60 epoches except early stopping occurs. After 60 epoches, the accuracy on the test set is 0.9635\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough. The result is shown \ref{Figure: 32}
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -94,7 +168,7 @@ First, we half the hidden units. Now we have a network of 3 layers with a hidden
 		\includegraphics[width=3in]{images/32_hidden_accuracy.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with a hidden layer of 32 hidden nodes. }  
-	
+	\label{Figure: 32}
 \end{figure*}
 
 \begin{figure*} [!htbp]
@@ -104,12 +178,14 @@ First, we half the hidden units. Now we have a network of 3 layers with a hidden
 		\includegraphics[width=3in]{images/128_hidden_accuracy.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with a hidden layer of 128 hidden nodes. }  
-	
+	 \label{Figure: 128}
 \end{figure*}
-Then, we double the hidden units. Now we have a network of 3 layers with a hidden layer with 128 nodes. We run the network for 60 epoches except early stopping occurs. After 60 epoches, the accuracy on the test set is 0.9787\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
+
+Then, we double the hidden units. Now we have a network of 3 layers with a hidden layer with 128 nodes. We run the network for 60 epoches except early stopping occurs. After 60 epoches, the accuracy on the test set is 0.9787\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough. The result is shown \ref{Figure: 128}
+
 
 To further examine the influence of the numebr of hidden units, we decrease the hidden units to two nodes. We find that using two hidden units cannot capture the relation between different pixels. This suggests that if the number of
-hidden units is too small, we cannot get good results. If the number is too large, we can capture the information between pixels, but it can lead to overfitting and have much more parameters to tune.
+hidden units is too small, we cannot get good results. The result is shown \ref{Figure: 2}. If the number is too large, we can capture the information between pixels, but it can lead to overfitting and have much more parameters to tune.
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -118,13 +194,14 @@ hidden units is too small, we cannot get good results. If the number is too larg
 		\includegraphics[width=3in]{images/2_accuracy.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with a hidden layer of 2 hidden nodes. }  
+	\label{Figure: 2}
 \end{figure*}
 
 
 
 \subsection{Doubling the hidden layers}
 For a network with one hidden of 64 nodes, there are approximately about 50890 parameters. If we increase the hidden layers while keep the same number of parameters, there will be 58 hidden nodes in each hidden layer. We use a momentum of 0.9 and use the sigmoid in Section 4.4 of ``lecun98efficient.pdf". The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9766\%. This is no early stopping occurs, the possible reason is that the choice of learning is small enough.
-
+The result is shown \ref{Figure: double}
 \begin{figure*} [!htbp]
 	\subfigure[]{   
 		\includegraphics[width=3in]{images/two_layer_loss.png}}
@@ -132,9 +209,8 @@ For a network with one hidden of 64 nodes, there are approximately about 50890 p
 		\includegraphics[width=3in]{images/two_layer_accuracy.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with two hidden layers. }  
-
+	\label{Figure: double}
 \end{figure*}
-
 
 
 \subsection{More tricks}
@@ -163,9 +239,7 @@ The gradient of ReLU can be caculated as,
 \]
 
 
-We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
-
-
+We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. The result is shown \ref{Figure: ReLU}.
 
 
 \begin{figure*} [!htbp]
@@ -175,6 +249,7 @@ We use a three layer network with a hidden layer with 64 nodes. We use a momentu
 		\includegraphics[width=3in]{images/relu_accuracy.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with ReLU. }  
+	\label{Figure: ReLU}
 \end{figure*}
 
 
@@ -204,9 +279,8 @@ The gradient of leaky ReLU can be caculated as,
 
 
 
-We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01.
+We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 0.9723\%. The result is shown \ref{Figure: leaky}
 
-After 60 epoches, the accuracy on the test set is 0.9723\%.
 
 
 \begin{figure*} [!htbp]
@@ -216,13 +290,12 @@ After 60 epoches, the accuracy on the test set is 0.9723\%.
 		\includegraphics[width=3in]{images/leaky_relu_accuracy.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with leaky ReLU. }  
-	
+	\label{Figure: leaky}
 \end{figure*}
 
 
-
 \subsubsection{Nesterov momentum}
-We consider using Nesterov momentum. We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 97.34\%.
+We consider using Nesterov momentum. We use a three layer network with a hidden layer with 64 nodes. We use a momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 97.34\%. The result is shown \ref{Figure: nes}
 
 \begin{figure*} [!htbp]
 	\subfigure[]{   
@@ -230,13 +303,14 @@ We consider using Nesterov momentum. We use a three layer network with a hidden 
 	\subfigure[]{   
 		\includegraphics[width=3in]{images/nestorov_accuracy.png}}
 	
-	\caption{The loss and accuacy of different sets over the batches with Nesterov momentum. }  
+	\caption{The loss and accuacy of different sets over the batches with Nesterov momentum. } 
+	\label{Figure: nes} 
 	
 \end{figure*}
 
 
 \subsubsection{Xavier initializtion}
-We consider using Xavier initializtion. We use a three layer network with a hidden layer with 64 nodes. We use a nesterov momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 97.51\%. 
+We consider using Xavier initializtion. We use a three layer network with a hidden layer with 64 nodes. We use a nesterov momentum of 0.9 and use leaky ReLU as activation function. The initialization method of weights are as described in 4 (c) in Programming assignment 2. Learning rate is 0.01. After 60 epoches, the accuracy on the test set is 97.51\%. The result is shown \ref{Figure: Xav}.
 
 
 \begin{figure*} [!htbp]
@@ -246,6 +320,7 @@ We consider using Xavier initializtion. We use a three layer network with a hidd
 		\includegraphics[width=3in]{images/xavier_acc.png}}
 	
 	\caption{The loss and accuacy of different sets over the batches with Xavier initializtion. }  
+	\label{Figure: Xav}
 	
 \end{figure*}
 
@@ -254,9 +329,9 @@ In this work, we successfully derived and implemented multilayer backpropagation
 
 \section{Contributions}
 
-\textbf{Shilin Zhu} did the implementation of gradient checking in Section 3.d and added the tricks in Section 4.
+\textbf{Shilin Zhu} did the implementation of gradient checking in Section 3.d, added the tricks of the trade, did corresponding experiments, and write corresponding parts report in Section 4.
 
-\textbf{Yunhui Guo} did the implementation of mini-batch gradient descent in Section 3(a,b,c,e) and experimented with network topology in Section 5.
+\textbf{Yunhui Guo} did the implementation of mini-batch gradient descent in Section 3(a,b,c,e), experimented with different network topologies, and write corresponding parts report in Section 5.
 
 Three discussions and pair programming were made before submitting this report.
 
