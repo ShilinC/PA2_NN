@@ -65,7 +65,7 @@ def zero_init_delta_w(input_size, output_size):
 class Network():
 
     def __init__(self, layers, init_method_weights = random_init_weights, init_method_bias = random_init_bias, init_method_delta_w = zero_init_delta_w, activation_fn = "sigmoid", 
-        learning_rate = 0.01, momentum = 0.0, epoches = 60, batch_size = 128, nesterov_momentum = 0):
+        learning_rate = 0.01, momentum = 0.9, epoches = 60, batch_size = 1, nesterov_momentum = 0):
         self.layers = layers
         self.init_method_weights = init_method_weights
         self.init_method_bias = init_method_bias
@@ -160,7 +160,6 @@ class Network():
                     else:
                         print("bias gradient check failed!")                        
 
-
     def loss_check(self, input_data, train_label_batch):
         pred_y = self.forward_check(input_data)
 
@@ -196,10 +195,10 @@ class Network():
 
             dw = [dweight + dweight_ for dweight, dweight_ in zip(dw, dw_)]
             db = [dbias + dbias_ for dbias, dbias_ in zip(db, db_)]
-            #self.gradient_check(dw_, train_data, train_label)
-            #self.bias_gradient_check(db_, train_data, train_label)
 
-        #self.gradient_check(dw, train_data_batch, train_label_batch)
+            # For gradient check
+            self.gradient_check(dw, train_data, train_label)
+            self.bias_gradient_check(db, train_data, train_label)
 
         if self.nesterov_momentum == 1:
             #nesterov_momentum
@@ -226,6 +225,7 @@ class Network():
         delta = train_label - activations[-1]
         dw[-1] = np.matmul( activations[-2].transpose(), delta)
 
+        # Backpropagation
         for idx in range(2, len(self.layers)):
             pre_activation = pre_activations[-idx]
             activation = activations[-idx-1]
@@ -261,30 +261,32 @@ class Network():
 
         stop_training = False
         for epoch in range(self.epoches):
-            #idxs = np.random.permutation(training_images.shape[0]) 
-            #X_random = training_images[idxs]
-            #Y_random = one_hot_train_labels[idxs]
-            print(epoch)
+            # Shuffle data
+            idxs = np.random.permutation(training_images.shape[0]) 
+            X_random = training_images[idxs]
+            Y_random = one_hot_train_labels[idxs]
+            print "Epoch " + str(epoch)
 
             for i in range(int(batch_count)):
-                #train_data_batch = X_random[i * self.batch_size: (i+1) * self.batch_size, :]
-                #train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]   
-                train_data_batch = training_images[i * self.batch_size: (i+1) * self.batch_size, :]
-                train_label_batch = one_hot_train_labels[i * self.batch_size: (i+1) * self.batch_size, :]   
+                train_data_batch = X_random[i * self.batch_size: (i+1) * self.batch_size, :]
+                train_label_batch = Y_random[i * self.batch_size: (i+1) * self.batch_size, :]   
 
+                # Update mini_batch
                 self.update_mini_batch(train_data_batch, train_label_batch)
-                
                 
                 pred_y_train = self.forward(training_images)
                 pred_y_test = self.forward(test_images)
                 pred_y_validation = self.forward(validation_images)
 
                 loss_ = self.loss(pred_y_validation, one_hot_validation_labels)
+
+                # Early stopping
                 if loss_ <= self.validation_loss:
                     self.validaetion_loss = loss_
                     self.best_validation_weights = [np.array(weight) for weight in self.w]
                     self.best_validation_biases = [np.array(bias) for bias in self.b]
 
+                    # Calculate accuracy and loss
                     training_accuracy_all.append(self.accuracy(pred_y_train, training_labels))
                     test_accuracy_all.append(self.accuracy(pred_y_test, test_labels))
                     validation_accuracy_all.append(self.accuracy(pred_y_validation, validation_labels))
@@ -299,7 +301,7 @@ class Network():
                 break
 
             pred_y_test = self.forward(test_images)
-            print(self.accuracy(pred_y_test, test_labels))
+            print "Test accuracy is: " + str(self.accuracy(pred_y_test, test_labels))
 
         fig1 = plt.figure(1)
         plt.plot(training_accuracy_all,'r-')
@@ -335,6 +337,7 @@ if __name__ == '__main__':
     training_labels = np.array(training_labels)
     test_labels = np.array(test_labels)
 
+    # Normalize data
     training_images = training_images / 127.5 - 1
     test_images = test_images / 127.5 - 1
 
@@ -342,25 +345,20 @@ if __name__ == '__main__':
     one_hot_train_labels = np.eye(classes)[training_labels] 
     one_hot_test_labels = np.eye(classes)[test_labels]  
 
+    # Construct train data and validation data
     training_images, validation_images = training_images[0:50000,:], training_images[50000:,:]
     training_labels, validation_labels = training_labels[0:50000], training_labels[50000:]
     one_hot_train_labels, one_hot_validation_labels = one_hot_train_labels[0:50000,:], one_hot_train_labels[50000:,:]
-    
-    #For gradient check
-    #training_images = training_images[0:1]
-    #one_hot_train_labels = one_hot_train_labels[0:1]
-    #training_labels = training_labels[0:1]
 
+
+    training_images = training_images[0:1]
+    training_labels = training_labels[0:1]
+    one_hot_train_labels = one_hot_train_labels[0:1]
 
     nn = Network([784, 64, 10])
 
-    begin = time.time()
+    # Train network
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
-    end = time.time()
-    print("Running Time: " + str(end-begin))
-
-    #Original: 
-
 
 
 
