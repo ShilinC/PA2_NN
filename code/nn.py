@@ -274,6 +274,7 @@ class Network():
                 # Update mini_batch
                 self.update_mini_batch(train_data_batch, train_label_batch)
                 
+                '''
                 pred_y_train = self.forward(training_images)
                 pred_y_test = self.forward(test_images)
                 pred_y_validation = self.forward(validation_images)
@@ -302,7 +303,7 @@ class Network():
 
             pred_y_test = self.forward(test_images)
             print "Test accuracy is: " + str(self.accuracy(pred_y_test, test_labels))
-            
+            '''
         fig1 = plt.figure(1)
         plt.plot(training_accuracy_all,'r-')
         plt.plot(test_accuracy_all, 'b-')
@@ -354,5 +355,7 @@ if __name__ == '__main__':
 
     # Train network
     nn.train(training_images, one_hot_train_labels, training_labels, test_images, one_hot_test_labels, test_labels, validation_images, validation_labels, one_hot_validation_labels)
+
+
 
 
